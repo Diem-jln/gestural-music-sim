@@ -2,44 +2,66 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Musical Gestual // Why Bother?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulador Gestual de Resonancia Sonora 3D // Lava Lab</title>
   <link rel="stylesheet" href="assets/css/style.css">
   
-  <!-- MediaPipe Hands CDN -->
+  <!-- MediaPipe Hands & Camera Utils Oficial CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- HUD Superior Limpio y Compacto -->
+  <!-- Contenedor Maestro de la Interfaz HUD Táctil Aérea -->
   <div id="hud-overlay">
     <div class="hud-top">
       <div class="hud-brand">
-        <h1>Instrumento Gestual</h1>
-        <div id="hud-state-chip" class="hud-status-chip chip-active">LOBBY</div>
+        <div class="lava-orb" id="brand-lava-orb"></div>
+        <div class="hud-brand-text">
+          <h1>Resonancia Viscosa 3D</h1>
+          <span id="hud-state-chip" class="hud-status-chip">CÁMARA TÉRMICA // LOBBY ABIERTO</span>
+        </div>
       </div>
 
-      <!-- Monitor de Aprendizaje IA -->
+      <!-- Monitor de Aprendizaje del Modelo & Convergencia de Pérdida -->
       <div class="hud-ai-trainer" id="hud-ai-panel" style="display: none;">
         <div class="ai-header">
-          <span id="ai-status-text">APRENDIZAJE IA</span>
-          <span id="ai-loss-metric" class="gold">0%</span>
+          <span id="ai-status-text">MEMORIA DEL MODELO // ADQUISICIÓN</span>
+          <span id="ai-loss-metric" class="gold">LOSS: 1.000</span>
         </div>
         <div class="ai-bar-bg">
           <div id="ai-coherence-bar" class="ai-bar-fill"></div>
         </div>
+        <div class="ai-footer-metrics">
+          <span id="ai-samples-count">DATASET: 0 MUESTRAS</span>
+          <span id="ai-tempo-coherence">RITMO: 0% COHERENTE</span>
+        </div>
       </div>
 
-      <!-- Botones de Control -->
+      <!-- Barra de Acciones Globales (Completamente accionables con manos o ratón) -->
       <div class="hud-controls">
-        <button id="btn-sound-init" class="hud-btn">Audio</button>
-        <button id="btn-sandbox" class="hud-btn btn-sandbox">Modo Sandbox</button>
-        <button id="btn-reset" class="hud-btn btn-subtle" style="display: none;">↺ Salir</button>
+        <button id="btn-sound-init" class="hud-btn air-target">Activar Audio</button>
+        <button id="btn-pro-toggle" class="hud-btn btn-pro air-target">Modo Avanzado</button>
+        <button id="btn-sandbox" class="hud-btn btn-sandbox air-target">Modo Sandbox</button>
+        <button id="btn-reset" class="hud-btn btn-subtle air-target" style="display: none;">↺ Lobby</button>
+      </div>
+    </div>
+
+    <!-- Indicador Metronómico Dinámico de Pulso Musical Cuantizado -->
+    <div id="rhythm-bar-container" style="display: none;">
+      <div class="rhythm-metronome">
+        <div id="metronome-tick" class="metronome-cursor"></div>
+      </div>
+      <div class="rhythm-info">
+        <span id="rhythm-bpm-display">BPM: 120</span>
+        <span id="rhythm-tolerance-display">VENTANA RÍTMICA: ±120ms</span>
       </div>
     </div>
   </div>
 
+  <!-- Video en memoria con dimensiones normalizadas para WebAssembly -->
   <video id="webcam" width="640" height="480" autoplay muted playsinline style="position: absolute; opacity: 0; pointer-events: none; z-index: -1;"></video>
+  
+  <!-- Canvas Principal de Renderizado Unificado -->
   <canvas id="mainCanvas"></canvas>
 
   <script type="module" src="src/main.js"></script>

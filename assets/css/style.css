@@ -1,19 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Syne:wght@700;800&family=Space+Mono:wght@400;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --bg-deep: #030305;
+  --lava-amber: #ff5400;
+  --lava-gold: #ffaa00;
+  --lava-core: #fff3b0;
+  --lava-glow: rgba(255, 84, 0, 0.55);
+  --glass-surface: rgba(14, 15, 20, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --accent-pro: #ff2a5f;
+  --accent-teal: #06d6a0;
+  --accent-gold: #ffd166;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
 body, html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #030406;
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  color: #f8fafc;
+  background-color: var(--bg-deep);
+  font-family: var(--font-body);
+  color: #f3f4f6;
   user-select: none;
 }
 
+/* Lienzo unificado */
 #mainCanvas {
   position: absolute;
   top: 0;
@@ -24,6 +43,20 @@ body, html {
   z-index: 1;
 }
 
+/* Viñeta atmosférica cinematográfica */
+body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(3, 3, 5, 0.88) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Contenedor HUD superior */
 #hud-overlay {
   position: absolute;
   top: 0;
@@ -34,142 +67,246 @@ body, html {
   pointer-events: none;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 16px 24px;
+  justify-content: space-between;
+  padding: 22px 34px;
 }
 
 .hud-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
   pointer-events: auto;
+  gap: 16px;
 }
 
+/* Bloque de Marca y Orbe de Magma */
 .hud-brand {
-  border-left: 2px solid #00f0ff;
-  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.hud-brand h1 {
-  font-size: 13px;
-  letter-spacing: 2px;
+.lava-orb {
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 35% 35%, var(--lava-core), var(--lava-amber));
+  border-radius: 50%;
+  box-shadow: 0 0 22px var(--lava-glow);
+  animation: pulseBlob 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulseBlob {
+  0% { transform: scale(0.9); box-shadow: 0 0 12px var(--lava-glow); }
+  100% { transform: scale(1.22); box-shadow: 0 0 28px rgba(255, 170, 0, 0.95); }
+}
+
+.hud-brand-text h1 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
   text-transform: uppercase;
   color: #ffffff;
-  font-weight: 700;
 }
 
 .hud-status-chip {
-  display: inline-block;
-  padding: 1px 6px;
-  border-radius: 2px;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
-  margin-top: 2px;
+  color: var(--lava-gold);
 }
 
-.chip-active {
-  background: rgba(0, 240, 255, 0.12);
-  color: #00f0ff;
-  border: 1px solid rgba(0, 240, 255, 0.25);
+.chip-pro {
+  color: var(--accent-pro) !important;
+  text-shadow: 0 0 10px rgba(255, 42, 95, 0.6);
 }
 
 .chip-sandbox {
-  background: rgba(255, 83, 112, 0.15);
-  color: #ff5370;
-  border: 1px solid rgba(255, 83, 112, 0.35);
+  color: var(--accent-teal) !important;
+  text-shadow: 0 0 10px rgba(6, 214, 160, 0.6);
 }
 
+/* Panel de telemetría de IA con métricas de dataset */
 .hud-ai-trainer {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: 240px;
-  background: rgba(8, 11, 16, 0.7);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 4px;
-  padding: 8px 12px;
+  gap: 6px;
+  width: 290px;
+  background: var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px);
+  border-radius: 18px;
+  padding: 10px 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 .ai-header {
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
-  letter-spacing: 1px;
-  color: #94a3b8;
+  font-size: 9px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  letter-spacing: 1.2px;
+  color: #9ca3af;
+}
+
+.ai-header .gold {
+  color: var(--lava-gold);
 }
 
 .ai-bar-bg {
   width: 100%;
-  height: 5px;
+  height: 6px;
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .ai-bar-fill {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #ffd700, #00f0ff);
-  transition: width 0.2s ease;
+  background: linear-gradient(90deg, var(--lava-amber), var(--lava-gold));
+  border-radius: 10px;
+  box-shadow: 0 0 14px var(--lava-amber);
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.ai-footer-metrics {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  color: #6b7280;
+  letter-spacing: 1px;
+}
+
+/* Botonera de interacción táctil aérea */
 .hud-controls {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 }
 
 .hud-btn {
-  background: rgba(15, 23, 42, 0.85);
-  color: #00f0ff;
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  padding: 6px 14px;
+  background: var(--glass-surface);
+  color: #f3f4f6;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  padding: 8px 18px;
+  font-family: var(--font-display);
   font-size: 10px;
-  letter-spacing: 1.2px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  border-radius: 3px;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  font-weight: 700;
+  border-radius: 30px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
 }
 
 .hud-btn:hover:not(:disabled) {
-  background: #00f0ff;
-  color: #040507;
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.5);
+  border-color: var(--lava-gold);
+  color: var(--lava-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(255, 170, 0, 0.4);
+}
+
+.hud-btn.air-hovered {
+  border-color: var(--lava-gold) !important;
+  color: #ffffff !important;
+  background: rgba(255, 170, 0, 0.25) !important;
+  transform: scale(1.06);
+  box-shadow: 0 0 25px rgba(255, 170, 0, 0.8) !important;
+}
+
+.btn-pro {
+  border-color: rgba(255, 42, 95, 0.4);
+  color: var(--accent-pro);
+}
+
+.btn-pro:hover {
+  background: rgba(255, 42, 95, 0.18);
+  border-color: var(--accent-pro);
+  box-shadow: 0 6px 22px rgba(255, 42, 95, 0.45);
+}
+
+.btn-pro.active {
+  background: var(--accent-pro);
+  color: #ffffff;
+  border-color: var(--accent-pro);
+  box-shadow: 0 0 26px rgba(255, 42, 95, 0.8);
 }
 
 .btn-sandbox {
-  background: rgba(255, 83, 112, 0.15);
-  color: #ff5370;
-  border-color: rgba(255, 83, 112, 0.4);
+  border-color: rgba(6, 214, 160, 0.35);
+  color: var(--accent-teal);
 }
 
 .btn-sandbox:hover {
-  background: #ff5370;
-  color: #040507;
-  box-shadow: 0 0 14px rgba(255, 83, 112, 0.6);
+  background: rgba(6, 214, 160, 0.15);
+  border-color: var(--accent-teal);
+  box-shadow: 0 6px 22px rgba(6, 214, 160, 0.35);
 }
 
 .btn-sandbox.active {
-  background: #ff5370;
-  color: #040507;
-  box-shadow: 0 0 18px rgba(255, 83, 112, 0.8);
+  background: var(--accent-teal);
+  color: #050508;
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 26px rgba(6, 214, 160, 0.7);
 }
 
 .btn-subtle {
-  background: rgba(30, 41, 59, 0.6);
-  color: #94a3b8;
-  border-color: rgba(148, 163, 184, 0.2);
+  color: #9ca3af;
 }
 
 .btn-subtle:hover {
-  background: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
+  border-color: #ff3366;
+  color: #ff3366;
+}
+
+/* Indicador de Pulso y Cuantización Musical */
+#rhythm-bar-container {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.rhythm-metronome {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.metronome-cursor {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 60px;
+  height: 100%;
+  transform: translateX(-50%);
+  background: var(--lava-gold);
+  box-shadow: 0 0 14px var(--lava-gold);
+  border-radius: 2px;
+}
+
+.rhythm-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: #6b7280;
+  letter-spacing: 1.2px;
 }
