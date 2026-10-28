@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Musical Gestual // Why Bother?</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- MediaPipe Hands CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- HUD Superior Limpio y Compacto -->
+  <div id="hud-overlay">
+    <div class="hud-top">
+      <div class="hud-brand">
+        <h1>Instrumento Gestual</h1>
+        <div id="hud-state-chip" class="hud-status-chip chip-active">LOBBY</div>
+      </div>
+
+      <!-- Monitor de Aprendizaje IA -->
+      <div class="hud-ai-trainer" id="hud-ai-panel" style="display: none;">
+        <div class="ai-header">
+          <span id="ai-status-text">APRENDIZAJE IA</span>
+          <span id="ai-loss-metric" class="gold">0%</span>
+        </div>
+        <div class="ai-bar-bg">
+          <div id="ai-coherence-bar" class="ai-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Botones de Control -->
+      <div class="hud-controls">
+        <button id="btn-sound-init" class="hud-btn">Audio</button>
+        <button id="btn-sandbox" class="hud-btn btn-sandbox">Modo Sandbox</button>
+        <button id="btn-reset" class="hud-btn btn-subtle" style="display: none;">↺ Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <video id="webcam" width="640" height="480" autoplay muted playsinline style="position: absolute; opacity: 0; pointer-events: none; z-index: -1;"></video>
+  <canvas id="mainCanvas"></canvas>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
